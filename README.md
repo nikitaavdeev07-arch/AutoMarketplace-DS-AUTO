@@ -4,7 +4,7 @@
 Разработка клиентского веб-приложения автомобильного маркетплейса включающая в себя удобную навигацию, адаптивный интерфейс и подробную информацию о каждом автомобиле.
 
 🔗 GitHub Pages:  
-https://nikitaavdeev07-arch.github.io/Marketplace/
+https://nikitaavdeev07-arch.github.io/AutoMarketplace-DS-AUTO/
 
 ---
 
@@ -124,7 +124,7 @@ DS AUTO/
 
 1. Клонировать репозиторий:
 
-git clone https://github.com/nikitaavdeev07-arch/Marketplace
+git clone https://github.com/nikitaavdeev07-arch/AutoMarketplace-DS-AUTO
 
 2. Открыть проект в Visual Studio Code.
 
@@ -136,7 +136,7 @@ git clone https://github.com/nikitaavdeev07-arch/Marketplace
 # 🌐 Публичный доступ
 
 Проект опубликован на GitHub Pages:
-https://nikitaavdeev07-arch.github.io/Marketplace/
+https://nikitaavdeev07-arch.github.io/AutoMarketplace-DS-AUTO/
 
 # 📊 Тестирование
 
