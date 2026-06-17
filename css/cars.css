@@ -1,0 +1,468 @@
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1f24;
+            font-family: 'Inter', sans-serif;
+            padding: 40px 24px;
+            color: #d9dfe8;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* Логотип */
+        .logo-button {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            z-index: 1100;
+            background: #101418;
+            backdrop-filter: blur(8px);
+            padding: 12px 24px;
+            border-radius: 60px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 1.6rem;
+            letter-spacing: 1px;
+            background: linear-gradient(135deg, #e0e6ef 0%, #b9c4d1 70%, #a0b0bf 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            border: 1px solid rgba(190, 200, 210, 0.3);
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+        }
+
+        .logo-button:hover {
+            transform: scale(1.02);
+            border-color: rgba(210, 220, 240, 0.6);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.5);
+            background: linear-gradient(135deg, #f0f6ff, #c8d4e4);
+            background-clip: text;
+            -webkit-background-clip: text;
+        }
+
+        .page-header {
+            margin-bottom: 42px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #e0e6ef 0%, #b9c4d1 70%, #a0b0bf 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            letter-spacing: -0.5px;
+        }
+
+        .cars-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 28px;
+            margin-top: 24px;
+        }
+
+        .car-card {
+            background: #242a30;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            border: 1px solid rgba(190, 200, 210, 0.12);
+        }
+
+        .car-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 28px 40px -14px black;
+            border-color: rgba(192, 202, 215, 0.3);
+        }
+
+        .card-brand {
+            background: #101418;
+            padding: 18px 22px;
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px solid #2f3740;
+        }
+
+        .brand-name {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            background: linear-gradient(125deg, #f0f4fa, #c0ccda);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .brand-year {
+            font-size: 1rem;
+            font-weight: 600;
+            background: rgba(200, 210, 225, 0.12);
+            padding: 5px 12px;
+            border-radius: 40px;
+            color: #cbd5e2;
+            border: 0.5px solid rgba(210, 220, 235, 0.2);
+        }
+
+        .car-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+            background: #0f151c;
+            transition: transform 0.3s ease;
+        }
+        
+        .car-card:hover .car-image {
+            transform: scale(1.02);
+        }
+        
+        .image-wrapper {
+            overflow: hidden;
+            position: relative;
+            background: #0a0f14;
+            border-bottom: 1px solid #2f3842;
+        }
+
+        .card-content {
+            padding: 20px 22px 18px 22px;
+            flex: 1;
+        }
+
+        .price {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #cfddee;
+            margin-bottom: 14px;
+            letter-spacing: -0.3px;
+        }
+
+        .price small {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #98a9bb;
+        }
+
+        .badge-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid #2e3842;
+            padding-bottom: 14px;
+        }
+
+        .chip {
+            background: #1e282f;
+            padding: 5px 14px;
+            border-radius: 40px;
+            font-size: 0.73rem;
+            font-weight: 600;
+            color: #bfcfdf;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            border: 0.5px solid rgba(180, 200, 220, 0.2);
+        }
+
+        .chip::before {
+            content: "✦";
+            font-weight: bold;
+            font-size: 0.7rem;
+            color: #bccbd9;
+        }
+
+        .specs {
+            margin: 12px 0 12px;
+            font-size: 0.85rem;
+            line-height: 1.48;
+            color: #bdcadb;
+            background: #1a2128;
+            padding: 12px 15px;
+            border-radius: 20px;
+            border-left: 3px solid #7c8ea0;
+        }
+
+        .mileage-location {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            margin: 14px 0 8px;
+            color: #b3c2d4;
+            font-weight: 500;
+        }
+
+        .monthly {
+            font-weight: 600;
+            font-size: 0.85rem;
+            background: #1f2a33;
+            display: inline-block;
+            padding: 6px 15px;
+            border-radius: 28px;
+            margin: 6px 0 16px;
+            color: #cddcf0;
+            border: 0.5px solid #3e4a56;
+        }
+
+        .btn-buy {
+            background: #bdc9d6;
+            border: none;
+            padding: 14px 0;
+            width: 100%;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #11181f;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 8px;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .btn-buy:hover {
+            background: #e0e9f2;
+            color: #0a1117;
+            transform: scale(0.98);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: #1e242b;
+            max-width: 480px;
+            width: 90%;
+            border-radius: 38px;
+            padding: 32px 28px 38px;
+            box-shadow: 0 30px 45px rgba(0,0,0,0.6);
+            animation: fadeSlideUp 0.27s ease;
+            border: 1px solid rgba(190, 200, 215, 0.25);
+        }
+
+        @keyframes fadeSlideUp {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content h3 {
+            font-size: 1.9rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(125deg, #eef3fc, #c5d1e0);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .modal-sub {
+            color: #a5b7ca;
+            margin-bottom: 26px;
+            font-size: 0.9rem;
+            border-left: 3px solid #9eb0c2;
+            padding-left: 14px;
+            font-weight: 500;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            color: #ccd9e8;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1.5px solid #323e48;
+            border-radius: 32px;
+            font-size: 0.95rem;
+            background: #10151b;
+            color: #eef3fc;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #b0c2d4;
+            box-shadow: 0 0 0 3px rgba(160, 180, 200, 0.3);
+            background: #181f26;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 32px;
+        }
+
+        .submit-btn {
+            background: #b7c5d4;
+            color: #0d151d;
+            border: none;
+            padding: 12px 0;
+            flex: 1;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .cancel-btn {
+            background: #2b3540;
+            border: 1px solid #4c5b68;
+            flex: 1;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #cbdae9;
+        }
+
+        .submit-btn:hover {
+            background: #dae6f2;
+            color: #000000;
+        }
+
+        .cancel-btn:hover {
+            background: #3b4856;
+            border-color: #8a9bb0;
+        }
+
+        .error-msg {
+            color: #f0a3a3;
+            font-size: 0.7rem;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .success-toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(30px);
+            background: #1b2c2c;
+            backdrop-filter: blur(16px);
+            background: linear-gradient(135deg, #1f2e2e, #182323);
+            border-left: 5px solid #b7d968;
+            border-radius: 48px;
+            padding: 18px 28px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 20px 35px -8px black, 0 0 0 1px rgba(180, 210, 150, 0.3);
+            z-index: 2000;
+            opacity: 0;
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            pointer-events: none;
+            font-family: 'Inter', sans-serif;
+            max-width: 460px;
+            width: max-content;
+        }
+
+        .success-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+
+        .toast-icon {
+            background: #b7d968;
+            width: 42px;
+            height: 42px;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 800;
+            color: #1a2a1a;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .toast-content {
+            color: #eef3fc;
+        }
+
+        .toast-content strong {
+            font-size: 1rem;
+            font-weight: 700;
+            display: block;
+            color: #e7f5b2;
+        }
+
+        .toast-content p {
+            font-size: 0.8rem;
+            margin-top: 4px;
+            opacity: 0.85;
+        }
+
+        .footer-message {
+            text-align: center;
+            margin-top: 54px;
+            font-size: 0.8rem;
+            color: #8f9eb0;
+            border-top: 1px solid #2c3843;
+            padding-top: 28px;
+        }
+
+        @media (max-width: 720px) {
+            body {
+                padding: 24px 16px;
+            }
+            .logo-button {
+                top: 16px;
+                left: 16px;
+                padding: 8px 20px;
+                font-size: 1.3rem;
+            }
+            .success-toast {
+                width: 90%;
+                padding: 14px 20px;
+                bottom: 20px;
+            }
+            .price {
+                font-size: 1.65rem;
+            }
+        }

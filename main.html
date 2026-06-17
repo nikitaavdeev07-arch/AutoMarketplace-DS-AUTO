@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>DS Auto • Автомобильный маркетплейс будущего</title>
+    <link href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap" rel="stylesheet">
+<script src="js/main1.js">
+</script>
+</head>
+<body>
+    <link rel="stylesheet" href="css/css main1.css">
+    <header class="header" id="header">
+        <div class="container header-content">
+            <!-- ЛОГОТИП + КНОПКА "О НАС" РЯДОМ -->
+            <div class="header-left">
+                <a href="/" class="logo">DS Auto</a>
+                <nav class="nav">
+                    <a href="company.html" class="active">О нас</a>
+                </nav>
+            </div>
+
+            <!-- КОНТАКТЫ СПРАВА -->
+            <div class="header-actions">
+                <button id="citySelectorBtn" class="city-btn">
+                    <span class="city-dot"></span>
+                    <span>Ставрополь</span>
+                </button>
+                <a href="tel:+79999999999" class="phone-link">+7 999 999-99-99</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section>
+                <div class="section-header">
+                    <h2 class="section-title">Выберите автомобиль</h2>
+                    <p class="section-subtitle">Тысячи проверенных машин с юридической гарантией и доставкой по всей России</p>
+                </div>
+                <div class="brand-grid" id="brandContainer">
+                    <!-- Карточки брендов будут сгенерированы JavaScript -->
+                </div>
+            </section>
+
+            <!-- Секция преимуществ -->
+            <section class="advantages-section">
+                <h3 class="advantages-title">Преимущества автомобильного маркетплейса DS Auto</h3>
+                <div class="advantages-grid">
+                    <!-- Блок 1 -->
+                    <div class="advantage-item">
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="advantage-title">Проверенные автомобили</h4>
+                            <p class="advantage-desc">Каждый автомобиль проходит диагностику по 250 параметрам</p>
+                        </div>
+                    </div>
+
+                    <!-- Блок 2 -->
+                    <div class="advantage-item">
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="advantage-title">Юридическая гарантия</h4>
+                            <p class="advantage-desc">Все автомобили проверены криминалистами и продаются с юридической гарантией</p>
+                        </div>
+                    </div>
+
+                    <!-- Блок 3 -->
+                    <div class="advantage-item">
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.066 2.573c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.573 1.066c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.066-2.573c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+                                <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="advantage-title">Техническая защита</h4>
+                            <p class="advantage-desc">Сделайте ТО-0 в нашем сервисе и получите бесплатную техническую защиту ДВС и КПП*</p>
+                        </div>
+                    </div>
+
+                    <!-- Блок 4 -->
+                    <div class="advantage-item">
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="advantage-title">Предпродажная подготовка</h4>
+                            <p class="advantage-desc">Единые стандарты внешней и технической подготовки для всех автомобилей</p>
+                        </div>
+                    </div>
+
+                    <!-- Блок 5 -->
+                    <div class="advantage-item">
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="advantage-title">Онлайн-кредитование</h4>
+                            <p class="advantage-desc">Получите одобрение онлайн самостоятельно сразу в нескольких банках</p>
+                        </div>
+                    </div>
+
+                    <!-- Блок 6 — Доставка с иконкой грузовика -->
+                    <div class="advantage-item">
+                        <div class="icon-box">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="15" height="13"/>
+                                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+                                <circle cx="5.5" cy="18.5" r="2.5"/>
+                                <circle cx="18.5" cy="18.5" r="2.5"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h4 class="advantage-title">Доставка</h4>
+                            <p class="advantage-desc">Привезем автомобиль вам домой</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- ФУТЕР (только контакты и копирайт) -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-contacts-line">
+                <a href="tel:+79999999999" class="contact-chip">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                    +7 999 999-99-99
+                </a>
+                <a href="mailto:info@dsauto.ru" class="contact-chip">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 7L2 7"/></svg>
+                    info@dsauto.ru
+                </a>
+                <span class="contact-chip" style="cursor:default;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Ставрополь
+                </span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- STICKY BAR -->
+    <div class="sticky-bottom-bar" id="stickyBar">
+        <div class="container sticky-bar-inner">
+            <button class="sticky-btn primary" id="stickyEvaluateBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="11" cy="11" r="8"/>
+                    <path d="M21 21l-4.35-4.35"/>
+                </svg>
+                Оценить авто
+            </button>
+            <button class="sticky-btn secondary" id="stickyCallBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+                Позвонить
+            </button>
+            <button class="sticky-btn secondary" id="stickyTradeInBtn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="17 1 21 5 17 9"/>
+                    <path d="M3 11V9a4 4 0 0 1 4-4h14"/>
+                    <polyline points="7 23 3 19 7 15"/>
+                    <path d="M21 13v2a4 4 0 0 1-4 4H3"/>
+                </svg>
+                Trade-In
+            </button>
+        </div>
+    </div>
+
+    <!-- Модалки -->
+    <div id="evaluateModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="closeEvaluateModal">&times;</button>
+            <h3>Оценка автомобиля</h3>
+            <div class="eval-form">
+                <input type="text" id="modalGosNumber" placeholder="А000АА000" class="eval-input">
+                <button id="modalEvaluateBtn" class="eval-submit" disabled>Оценить</button>
+            </div>
+            <p class="eval-hint" style="color: #9e9e9e; font-size: 0.8rem; text-align: center;">Введите госномер для быстрой оценки</p>
+        </div>
+    </div>
+
+    <div id="cityModal" class="modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-content">
+            <button class="modal-close" id="closeCityModal">&times;</button>
+            <h3>Выберите город</h3>
+            <div class="city-list" id="cityList"></div>
+        </div>
+    </div>
+</body>
+</html>

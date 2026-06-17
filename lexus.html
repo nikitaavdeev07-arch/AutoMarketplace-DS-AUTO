@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DS Auto | Премиум автомобили</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<link rel="stylesheet" href="css/cars.css">
+<a href="main.html" class="logo-button" id="dsLogoBtn">DS AUTO</a>
+
+<div class="container">
+    <div class="cars-grid" id="carsGrid"></div>
+    <div class="footer-message">✦ Оригинальные ПТС · Без ДТП  ✦</div>
+</div>
+
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <h3>Заказать автомобиль</h3>
+        <div class="modal-sub" id="modalCarTitle">Выберите авто в карточке</div>
+        <form id="buyerForm">
+            <div class="form-group">
+                <label>ФИО *</label>
+                <input type="text" id="fullName" placeholder="Иванов Иван Петрович" autocomplete="name">
+                <div class="error-msg" id="nameError">Укажите корректное ФИО (минимум два слова)</div>
+            </div>
+            <div class="form-group">
+                <label>Номер телефона *</label>
+                <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="tel">
+                <div class="error-msg" id="phoneError">Введите действующий номер (не менее 10 цифр)</div>
+            </div>
+            <div class="form-group">
+                <label>Электронная почта *</label>
+                <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+                <div class="error-msg" id="emailError">Пример: client@dsauto.ru</div>
+            </div>
+            <div class="modal-buttons">
+                <button type="submit" class="submit-btn">Оформить</button>
+                <button type="button" class="cancel-btn" id="closeModalBtn">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const carsData = [
+        { brand: "Lexus", model: "LS 500", year: 2022, price: 4500000, monthly: 96900, mileage: "12 316 км", engine: "5.0 AT (479 л.с.)", fuelDrive: "Бензин, Задний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=285d2fb094a07e0ead99dde4ee98976b9c14baa4-5232112-images-thumbs&n=13", alt: "Lexus LS" },
+        { brand: "Lexus", model: "ES 350", year: 2024, price: 3600000, monthly: 77500, mileage: "10 200 км", engine: "2.0 AT (150 л.с.)", fuelDrive: "Бензин, Передний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=cf2de3a20d1b474f4ddb6888604b5e61042a9824-2952767-images-thumbs&n=13", alt: "Lexus ES" },
+        { brand: "Lexus", model: "IS 500", year: 2022, price: 4500000, monthly: 96900, mileage: "14 000 км", engine: "5.0 AT (479 л.с.)", fuelDrive: "Бензин, Задний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=56f98a836f1149a19ce0d9f1f18b18ab0a833186-4575500-images-thumbs&n=13", alt: "Lexus IS" },
+        { brand: "Lexus", model: "RX 350", year: 2023, price: 8880000, monthly: 139500, mileage: "38 740 км", engine: "2.4 4WD AT (249 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=4ff5d171068bc87b3f1f9a66157c89802d482865-10190941-images-thumbs&n=13", alt: "Lexus RX" },
+        { brand: "Lexus", model: "LC 500", year: 2021, price: 9480000, monthly: 149200, mileage: "47 300 км", engine: "5.0 AT (477 л.с.)", fuelDrive: "Бензин, Задний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=e94242bb589f893fd346bd8514608ea0dfb9862c-8249876-images-thumbs&n=13", alt: "Lexus LC" },
+        { brand: "Lexus", model: "LX 600", year: 2022, price: 15800000, monthly: 200000, mileage: "4 000 км", engine: "3.5 AT (415 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=a2348e0f3ee24c64c266f46a0f0d03756ef19243-5231958-images-thumbs&n=13", alt: "Lexus LX" },
+    ];
+
+    function renderCards() {
+        const grid = document.getElementById('carsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        carsData.forEach((car) => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+
+            const brandDiv = document.createElement('div');
+            brandDiv.className = 'card-brand';
+            brandDiv.innerHTML = `
+                <div class="brand-name">${car.brand} ${car.model}</div>
+                <div class="brand-year">${car.year}</div>
+            `;
+            
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'image-wrapper';
+            const img = document.createElement('img');
+            img.src = car.imageUrl;
+            img.alt = car.alt || `${car.brand} ${car.model}`;
+            img.className = 'car-image';
+            img.loading = "lazy";
+            img.onerror = function() {
+                this.src = "https://placehold.co/800x500/1a2128/9eb0c2?text=" + encodeURIComponent(car.brand + " " + car.model);
+                this.alt = `${car.brand} ${car.model}`;
+            };
+            imageWrapper.appendChild(img);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'card-content';
+            
+            const priceSpan = document.createElement('div');
+            priceSpan.className = 'price';
+            priceSpan.innerHTML = `${window.formatPrice(car.price)} <small>₽</small>`;
+            
+            const badgesDiv = document.createElement('div');
+            badgesDiv.className = 'badge-stats';
+            badgesDiv.innerHTML = `
+                <span class="chip">${car.dtp}</span>
+                <span class="chip">${car.owners}</span>
+                <span class="chip">${car.pts}</span>
+            `;
+            
+            const specsDiv = document.createElement('div');
+            specsDiv.className = 'specs';
+            specsDiv.innerHTML = `<strong>${car.engine}</strong><br>${car.fuelDrive}`;
+            
+            const mileLoc = document.createElement('div');
+            mileLoc.className = 'mileage-location';
+            mileLoc.innerHTML = `
+                <span>📊 ${car.mileage}</span>
+                <span>📍 ${car.city}</span>
+            `;
+            
+            const monthlySpan = document.createElement('div');
+            monthlySpan.className = 'monthly';
+            monthlySpan.innerHTML = `От ${car.monthly.toLocaleString('ru-RU')} ₽/мес. · Премиум`;
+            
+            const buyBtn = document.createElement('button');
+            buyBtn.className = 'btn-buy';
+            buyBtn.innerText = 'Купить';
+            buyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.openOrderModal(car);
+            });
+            
+            contentDiv.appendChild(priceSpan);
+            contentDiv.appendChild(badgesDiv);
+            contentDiv.appendChild(specsDiv);
+            contentDiv.appendChild(mileLoc);
+            contentDiv.appendChild(monthlySpan);
+            contentDiv.appendChild(buyBtn);
+            
+            card.appendChild(brandDiv);
+            card.appendChild(imageWrapper);
+            card.appendChild(contentDiv);
+            grid.appendChild(card);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCards();
+        if (window.initEventHandlers) {
+            window.initEventHandlers();
+        }
+    });
+</script>
+<script src="js/cars.js"></script>
+</body>
+</html>

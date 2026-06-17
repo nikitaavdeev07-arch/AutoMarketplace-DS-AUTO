@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DS Auto | Премиум автомобили</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<link rel="stylesheet" href="css/cars.css">
+<a href="main.html" class="logo-button" id="dsLogoBtn">DS AUTO</a>
+
+<div class="container">
+    <div class="cars-grid" id="carsGrid"></div>
+    <div class="footer-message">✦ Оригинальные ПТС · Без ДТП  ✦</div>
+</div>
+
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <h3>Заказать автомобиль</h3>
+        <div class="modal-sub" id="modalCarTitle">Выберите авто в карточке</div>
+        <form id="buyerForm">
+            <div class="form-group">
+                <label>ФИО *</label>
+                <input type="text" id="fullName" placeholder="Иванов Иван Петрович" autocomplete="name">
+                <div class="error-msg" id="nameError">Укажите корректное ФИО (минимум два слова)</div>
+            </div>
+            <div class="form-group">
+                <label>Номер телефона *</label>
+                <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="tel">
+                <div class="error-msg" id="phoneError">Введите действующий номер (не менее 10 цифр)</div>
+            </div>
+            <div class="form-group">
+                <label>Электронная почта *</label>
+                <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+                <div class="error-msg" id="emailError">Пример: client@dsauto.ru</div>
+            </div>
+            <div class="modal-buttons">
+                <button type="submit" class="submit-btn">Оформить</button>
+                <button type="button" class="cancel-btn" id="closeModalBtn">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const carsData = [
+        { brand: "BMW", model: "M6", year: 2016, price: 5700000, monthly: 107590, mileage: "52000 км", engine: "4.4 AMT (575 л.с.)", fuelDrive: "Бензин, Задний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=b8befcc86fa50716f2809e3bf71228fe99375ad1-4402005-images-thumbs&n=13", alt: "BMW M6" },
+        { brand: "BMW", model: "M4", year: 2024, price: 15500000, monthly: 300000, mileage: "16 850 км", engine: "3.0 xDrive AT (530 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=3f1213f824db68986547838020e0322444cea9ea-5653325-images-thumbs&n=13", alt: "BMW M4" },
+        { brand: "BMW", model: "M5", year: 2022, price: 12900000, monthly: 260000, mileage: "44 414 км", engine: "4.4 xDrive AT (625 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=edbe2729677022f78a6e0a420e763699e646d176-9849900-images-thumbs&n=13", alt: "BMW M5" },
+        { brand: "BMW", model: "X6m", year: 2024, price: 21000000, monthly: 400000, mileage: "12 150 км", engine: "4.4 AT (625 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=51f453408afcb0d4aa9d30f6d4b4795f6f4d5f5a-5348787-images-thumbs&n=13", alt: "BMW X6" },
+        { brand: "BMW", model: "X7", year: 2023, price: 12300000, monthly: 255000, mileage: "32 014 км", engine: "40i 3.0 xDrive Steptronic (380 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=042b2ea17b7d61e5210ed6254e38d20e9399f8e2-5234392-images-thumbs&n=13", alt: "BMW X7" },
+        { brand: "BMW", model: "M3", year: 2025, price: 14500000, monthly: 285000, mileage: "31 520 км", engine: "3.0 xDrive AT (530 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=b0f3299f4eee346166b1ba764fec012b6dcb9f4e-3343247-images-thumbs&n=13", alt: "BMW M3" },
+        { brand: "BMW", model: "X5", year: 2025, price: 13100000, monthly: 265000, mileage: "116 км", engine: "40d 3.0 xDrive Steptronic (352 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=d022b902be340fe8de177e011516073b94c75a7d-4471899-images-thumbs&n=13", alt: "BMW X5" }
+    ];
+
+    function renderCards() {
+        const grid = document.getElementById('carsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        carsData.forEach((car) => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            const brandDiv = document.createElement('div');
+            brandDiv.className = 'card-brand';
+            brandDiv.innerHTML = `
+                <div class="brand-name">${car.brand} ${car.model}</div>
+                <div class="brand-year">${car.year}</div>
+            `;
+            
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'image-wrapper';
+            const img = document.createElement('img');
+            img.src = car.imageUrl;
+            img.alt = car.alt || `${car.brand} ${car.model}`;
+            img.className = 'car-image';
+            img.loading = "lazy";
+            img.onerror = function() {
+                this.src = "https://placehold.co/800x500/1a2128/9eb0c2?text=" + encodeURIComponent(car.brand + " " + car.model);
+                this.alt = `${car.brand} ${car.model}`;
+            };
+            imageWrapper.appendChild(img);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'card-content';
+            
+            const priceSpan = document.createElement('div');
+            priceSpan.className = 'price';
+            priceSpan.innerHTML = `${window.formatPrice(car.price)} <small>₽</small>`;
+            
+            const badgesDiv = document.createElement('div');
+            badgesDiv.className = 'badge-stats';
+            badgesDiv.innerHTML = `
+                <span class="chip">${car.dtp}</span>
+                <span class="chip">${car.owners}</span>
+                <span class="chip">${car.pts}</span>
+            `;
+            
+            const specsDiv = document.createElement('div');
+            specsDiv.className = 'specs';
+            specsDiv.innerHTML = `<strong>${car.engine}</strong><br>${car.fuelDrive}`;
+            
+            const mileLoc = document.createElement('div');
+            mileLoc.className = 'mileage-location';
+            mileLoc.innerHTML = `
+                <span>📊 ${car.mileage}</span>
+                <span>📍 ${car.city}</span>
+            `;
+            
+            const monthlySpan = document.createElement('div');
+            monthlySpan.className = 'monthly';
+            monthlySpan.innerHTML = `От ${car.monthly.toLocaleString('ru-RU')} ₽/мес. · Премиум`;
+            
+            const buyBtn = document.createElement('button');
+            buyBtn.className = 'btn-buy';
+            buyBtn.innerText = 'Купить';
+            buyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.openOrderModal(car);
+            });
+            
+            contentDiv.appendChild(priceSpan);
+            contentDiv.appendChild(badgesDiv);
+            contentDiv.appendChild(specsDiv);
+            contentDiv.appendChild(mileLoc);
+            contentDiv.appendChild(monthlySpan);
+            contentDiv.appendChild(buyBtn);
+            
+            card.appendChild(brandDiv);
+            card.appendChild(imageWrapper);
+            card.appendChild(contentDiv);
+            grid.appendChild(card);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCards();
+
+        if (window.initEventHandlers) {
+            window.initEventHandlers();
+        }
+    });
+</script>
+<script src="js/cars.js"></script>
+</body>
+</html>

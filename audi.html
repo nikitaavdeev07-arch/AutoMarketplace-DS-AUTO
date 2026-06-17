@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DS Auto | Премиум автомобили</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<link rel="stylesheet" href="css/cars.css">
+<a href="main.html" class="logo-button" id="dsLogoBtn">DS AUTO</a>
+<div class="container">
+    <div class="page-header"></div>
+    <div class="cars-grid" id="carsGrid"></div>
+    <div class="footer-message">✦ Оригинальные ПТС · Без ДТП  ✦</div>
+</div>
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <h3>Заказать автомобиль</h3>
+        <div class="modal-sub" id="modalCarTitle">Выберите авто в карточке</div>
+        <form id="buyerForm">
+            <div class="form-group">
+                <label> ФИО *</label>
+                <input type="text" id="fullName" placeholder="Иванов Иван Петрович" autocomplete="name">
+                <div class="error-msg" id="nameError">Укажите корректное ФИО (минимум два слова)</div>
+            </div>
+            <div class="form-group">
+                <label>Номер телефона *</label>
+                <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="tel">
+                <div class="error-msg" id="phoneError">Введите действующий номер (не менее 10 цифр)</div>
+            </div>
+            <div class="form-group">
+                <label>Электронная почта *</label>
+                <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+                <div class="error-msg" id="emailError">Пример: client@dsauto.ru</div>
+            </div>
+            <div class="modal-buttons">
+                <button type="submit" class="submit-btn">Оформить</button>
+                <button type="button" class="cancel-btn" id="closeModalBtn">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script>
+    const carsData = [
+        { brand: "Audi", model: "A6", year: 2020, price: 4050000, monthly: 87221, mileage: "44 000 км", engine: "40 TDI 2.0d AMT (204 л.с.)", fuelDrive: "Дизель, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=a0c311f051918c90ac5d1c8fabb1db43d8a12dde-7992926-images-thumbs&n=13", alt: "Audi A6 седан" },
+        { brand: "Audi", model: "A4", year: 2022, price: 3100000, monthly: 78900, mileage: "49 900 км", engine: "35 TFSI 2.0 S tronic (150 л.с.)", fuelDrive: "Бензин, Передний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=100f61be86f3e7baace656366517707c8abb739d-5577247-images-thumbs&n=13", alt: "A4" },
+        { brand: "Audi", model: "A5", year: 2025, price: 5600000, monthly: 94300, mileage: "3 150 км", engine: "40 TFSI 2.0 quattro S tronic (204 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=90ae31c64c3a62662906ea1524fc85106fe3b04d-4073135-images-thumbs&n=13", alt: "Audi A5" },
+        { brand: "Audi", model: "Audi A7", year: 2022, price: 8900000, monthly: 119200, mileage: " 420 км", engine: "45 TFSI 2.0 quattro S tronic (245 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=edc2cc7fa2bf9b4891b40d16d32c5d183ebad149-12472657-images-thumbs&n=13", alt: "Audi A7" },
+        { brand: "Audi", model: "RS Q3", year: 2015, price: 3650000, monthly: 80000, mileage: "61 000 км", engine: "2.5 TFSI quattro S tronic (340 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=b69d0952398f07074ceabf52a4d0ac27fda48026-5226469-images-thumbs&n=13", alt: "Audi RS Q3" },
+        { brand: "Audi", model: "RS7 Sportback", year: 2025, price: 21222000, monthly: 300000, mileage: "3 999 км", engine: "4.0 TFSI quattro Tiptronic (630 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=70d61485719d38b4a7ec6ce88c34633217853bac-5232238-images-thumbs&n=13", alt: "Audi RS7 Sportback" }
+    ];
+
+    function formatPrice(price) {
+        return price.toLocaleString('ru-RU') + " ₽";
+    }
+
+    function showSuccessToast(carName, clientName) {
+        const existingToast = document.querySelector('.success-toast');
+        if (existingToast) existingToast.remove();
+        const toast = document.createElement('div');
+        toast.className = 'success-toast';        
+        const firstName = clientName.trim().split(/\s+/)[0] || 'Клиент';        
+        toast.innerHTML = `
+            <div class="toast-icon">✓</div>
+            <div class="toast-content">
+                <strong>Заявка успешно принята! 🚀</strong>
+                <p>${firstName}, ваш запрос на <strong>${carName}</strong> получен.<br>Менеджер DS Auto свяжется с вами в течение 15 минут.</p>
+            </div>
+        `;
+        
+        document.body.appendChild(toast);        
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 10);      
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => {
+                if (toast.parentNode) toast.remove();
+            }, 400);
+        }, 4800);
+    }
+
+    function renderCards() {
+        const grid = document.getElementById('carsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+        carsData.forEach((car) => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+            const brandDiv = document.createElement('div');
+            brandDiv.className = 'card-brand';
+            brandDiv.innerHTML = `
+                <div class="brand-name">${car.brand} ${car.model}</div>
+                <div class="brand-year">${car.year}</div>
+            `;
+            
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'image-wrapper';
+            const img = document.createElement('img');
+            img.src = car.imageUrl;
+            img.alt = car.alt || `${car.brand} ${car.model}`;
+            img.className = 'car-image';
+            img.loading = "lazy";
+            img.onerror = function() {
+                this.src = "https://placehold.co/800x500/1a2128/9eb0c2?text=" + encodeURIComponent(car.brand + " " + car.model);
+                this.alt = `${car.brand} ${car.model}`;
+            };
+            imageWrapper.appendChild(img);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'card-content';
+            
+            const priceSpan = document.createElement('div');
+            priceSpan.className = 'price';
+            priceSpan.innerHTML = `${formatPrice(car.price)} <small>₽</small>`;
+            
+            const badgesDiv = document.createElement('div');
+            badgesDiv.className = 'badge-stats';
+            badgesDiv.innerHTML = `
+                <span class="chip">${car.dtp}</span>
+                <span class="chip">${car.owners}</span>
+                <span class="chip">${car.pts}</span>
+            `;
+            
+            const specsDiv = document.createElement('div');
+            specsDiv.className = 'specs';
+            specsDiv.innerHTML = `<strong>${car.engine}</strong><br>${car.fuelDrive}`;
+            const mileLoc = document.createElement('div');
+            mileLoc.className = 'mileage-location';
+            mileLoc.innerHTML = `
+                <span>📊 ${car.mileage}</span>
+                <span>📍 ${car.city}</span>
+            `;
+            
+            const monthlySpan = document.createElement('div');
+            monthlySpan.className = 'monthly';
+            monthlySpan.innerHTML = `От ${car.monthly.toLocaleString('ru-RU')} ₽/мес. · Премиум`; 
+            const buyBtn = document.createElement('button');
+            buyBtn.className = 'btn-buy';
+            buyBtn.innerText = 'Купить';
+            buyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                openOrderModal(car);
+            });
+            
+            contentDiv.appendChild(priceSpan);
+            contentDiv.appendChild(badgesDiv);
+            contentDiv.appendChild(specsDiv);
+            contentDiv.appendChild(mileLoc);
+            contentDiv.appendChild(monthlySpan);
+            contentDiv.appendChild(buyBtn);
+            card.appendChild(brandDiv);
+            card.appendChild(imageWrapper);
+            card.appendChild(contentDiv);
+            grid.appendChild(card);
+        });
+    }
+
+    const modal = document.getElementById('orderModal');
+    const modalCarTitleSpan = document.getElementById('modalCarTitle');
+    let currentSelectedCar = null;
+
+    function openOrderModal(car) {
+        currentSelectedCar = car;
+        modalCarTitleSpan.innerText = `${car.brand} ${car.model} · ${car.year}  |  ${formatPrice(car.price)}`;
+        document.getElementById('fullName').value = '';
+        document.getElementById('phone').value = '';
+        document.getElementById('email').value = '';
+        hideAllErrors();
+        modal.classList.add('active');
+    }
+
+    function closeModal() {
+        modal.classList.remove('active');
+        currentSelectedCar = null;
+    }
+
+    function hideAllErrors() {
+        document.getElementById('nameError').style.display = 'none';
+        document.getElementById('phoneError').style.display = 'none';
+        document.getElementById('emailError').style.display = 'none';
+    }
+
+    function validateForm() {
+        let isValid = true;
+        const fullName = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        
+        const nameWords = fullName.split(/\s+/);
+        if (fullName.length < 5 || nameWords.length < 2) {
+            document.getElementById('nameError').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('nameError').style.display = 'none';
+        }
+        
+        const phoneDigits = phone.replace(/[\s\(\)\-\+]/g, '');
+        if (phoneDigits.length < 10 || phoneDigits.length > 15 || !/^[\d]+$/.test(phoneDigits)) {
+            document.getElementById('phoneError').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('phoneError').style.display = 'none';
+        }
+        
+        const emailPattern = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            document.getElementById('emailError').style.display = 'block';
+            isValid = false;
+        } else {
+            document.getElementById('emailError').style.display = 'none';
+        }
+        return isValid;
+    }
+
+    const form = document.getElementById('buyerForm');
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (!validateForm()) return;
+        
+        const fullName = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        
+        const carInfo = currentSelectedCar ? `${currentSelectedCar.brand} ${currentSelectedCar.model} (${currentSelectedCar.year})` : 'Автомобиль DS Auto';
+        
+        showSuccessToast(carInfo, fullName);
+        
+        console.log(`✅ Заявка: ${fullName}, ${phone}, ${email}, Авто: ${carInfo}`);
+        
+        closeModal();
+        form.reset();
+        hideAllErrors();
+    });
+    
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.getElementById('closeModalBtn').addEventListener('click', closeModal);
+    
+    const nameInp = document.getElementById('fullName');
+    const phoneInp = document.getElementById('phone');
+    const emailInp = document.getElementById('email');
+    nameInp.addEventListener('input', () => document.getElementById('nameError').style.display = 'none');
+    phoneInp.addEventListener('input', () => document.getElementById('phoneError').style.display = 'none');
+    emailInp.addEventListener('input', () => document.getElementById('emailError').style.display = 'none');
+    
+    const logoBtn = document.getElementById('dsLogoBtn');
+    logoBtn.addEventListener('click', () => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        const tempMsg = document.createElement('div');
+        tempMsg.innerText = 'Добро пожаловать в DS Auto';
+        tempMsg.style.position = 'fixed';
+        tempMsg.style.bottom = '30px';
+        tempMsg.style.left = '50%';
+        tempMsg.style.transform = 'translateX(-50%)';
+        tempMsg.style.backgroundColor = '#2d3741';
+        tempMsg.style.color = '#e0e9f2';
+        tempMsg.style.padding = '12px 24px';
+        tempMsg.style.borderRadius = '60px';
+        tempMsg.style.fontWeight = '600';
+        tempMsg.style.zIndex = '1200';
+        tempMsg.style.backdropFilter = 'blur(12px)';
+        tempMsg.style.border = '1px solid rgba(210,220,240,0.3)';
+        tempMsg.style.fontSize = '0.9rem';
+        document.body.appendChild(tempMsg);
+        setTimeout(() => {
+            tempMsg.style.opacity = '0';
+            setTimeout(() => tempMsg.remove(), 500);
+        }, 1800);
+        if (modal.classList.contains('active')) closeModal();
+    });
+    
+    renderCards();
+</script>
+</body>
+</html>

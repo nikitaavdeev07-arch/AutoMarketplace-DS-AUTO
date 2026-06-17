@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DS Auto | Премиум автомобили</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<link rel="stylesheet" href="css/cars.css">
+<a href="main.html" class="logo-button" id="dsLogoBtn">DS AUTO</a>
+
+<div class="container">
+    <div class="cars-grid" id="carsGrid"></div>
+    <div class="footer-message">✦ Оригинальные ПТС · Без ДТП  ✦</div>
+</div>
+
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <h3>Заказать автомобиль</h3>
+        <div class="modal-sub" id="modalCarTitle">Выберите авто в карточке</div>
+        <form id="buyerForm">
+            <div class="form-group">
+                <label>ФИО *</label>
+                <input type="text" id="fullName" placeholder="Иванов Иван Петрович" autocomplete="name">
+                <div class="error-msg" id="nameError">Укажите корректное ФИО (минимум два слова)</div>
+            </div>
+            <div class="form-group">
+                <label>Номер телефона *</label>
+                <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="tel">
+                <div class="error-msg" id="phoneError">Введите действующий номер (не менее 10 цифр)</div>
+            </div>
+            <div class="form-group">
+                <label>Электронная почта *</label>
+                <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+                <div class="error-msg" id="emailError">Пример: client@dsauto.ru</div>
+            </div>
+            <div class="modal-buttons">
+                <button type="submit" class="submit-btn">Оформить</button>
+                <button type="button" class="cancel-btn" id="closeModalBtn">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    const carsData = [
+        { brand: "Volkswagen", model: "Golf", year: 2022, price: 2000000, monthly: 43221, mileage: "32 316 км", engine: "1.4 TSI DSG (150 л.с.)", fuelDrive: "Бензин, Передний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=eec03bf32ed6066c3caeaddd1e955a2efee04ddf-5347210-images-thumbs&n=13", alt: "Volkswagen Golf" },
+        { brand: "Volkswagen", model: "Jetta", year: 2022, price: 2450000, monthly: 52900, mileage: "41 000 км", engine: "1.5 TSI AT (158 л.с.)", fuelDrive: "Бензин, Передний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=6ef5fb346e253d12e743f5e71730232308f71f2f-4697086-images-thumbs&n=13", alt: "Volkswagen Jetta" },
+        { brand: "Volkswagen", model: "Tiguan", year: 2022, price: 3300000, monthly: 71300, mileage: "18 000 км", engine: "1.4 TSI DSG (150 л.с.)", fuelDrive: "Бензин, Передний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=20a69f06fe70df168b764e6c4d2ad6c12f894e11-5479741-images-thumbs&n=13", alt: "Volkswagen Tiguan" },
+        { brand: "Volkswagen", model: "Passat", year: 2024, price: 2500000, monthly: 53800, mileage: "21 000 км", engine: "1.4 TSI DSG (150 л.с.)", fuelDrive: "Бензин, Передний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=da26e17d5bd19eb847d16b14511406d5e06a6135-9025500-images-thumbs&n=13", alt: "Volkswagen Passat" },
+        { brand: "Volkswagen", model: "Touareg", year: 2023, price: 9850000, monthly: 53800, mileage: "40 612 км", engine: "3.0 TDI AT (286 л.с.)", fuelDrive: "Дизель, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=f922db8bfdf9119066b4a2c3e3aba17229935492-5482164-images-thumbs&n=13", alt: "Volkswagen Touareg" },
+        { brand: "Volkswagen", model: "Polo", year: 2022, price: 2120000, monthly: 134800, mileage: "56 520 км", engine: "1.4 TSI DSG (125 л.с.)", fuelDrive: "Бензин, Передний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=b7b186cda033e5585bfc6054680cce5a0e957646-6711951-images-thumbs&n=13", alt: "Volkswagen Polo" },
+    ];
+
+
+    function renderCards() {
+        const grid = document.getElementById('carsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        carsData.forEach((car) => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+
+            const brandDiv = document.createElement('div');
+            brandDiv.className = 'card-brand';
+            brandDiv.innerHTML = `
+                <div class="brand-name">${car.brand} ${car.model}</div>
+                <div class="brand-year">${car.year}</div>
+            `;
+            
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'image-wrapper';
+            const img = document.createElement('img');
+            img.src = car.imageUrl;
+            img.alt = car.alt || `${car.brand} ${car.model}`;
+            img.className = 'car-image';
+            img.loading = "lazy";
+            img.onerror = function() {
+                this.src = "https://placehold.co/800x500/1a2128/9eb0c2?text=" + encodeURIComponent(car.brand + " " + car.model);
+                this.alt = `${car.brand} ${car.model}`;
+            };
+            imageWrapper.appendChild(img);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'card-content';
+            
+            const priceSpan = document.createElement('div');
+            priceSpan.className = 'price';
+            priceSpan.innerHTML = `${window.formatPrice(car.price)} <small>₽</small>`;
+            
+            const badgesDiv = document.createElement('div');
+            badgesDiv.className = 'badge-stats';
+            badgesDiv.innerHTML = `
+                <span class="chip">${car.dtp}</span>
+                <span class="chip">${car.owners}</span>
+                <span class="chip">${car.pts}</span>
+            `;
+            
+            const specsDiv = document.createElement('div');
+            specsDiv.className = 'specs';
+            specsDiv.innerHTML = `<strong>${car.engine}</strong><br>${car.fuelDrive}`;
+            
+            const mileLoc = document.createElement('div');
+            mileLoc.className = 'mileage-location';
+            mileLoc.innerHTML = `
+                <span>📊 ${car.mileage}</span>
+                <span>📍 ${car.city}</span>
+            `;
+            
+            const monthlySpan = document.createElement('div');
+            monthlySpan.className = 'monthly';
+            monthlySpan.innerHTML = `От ${car.monthly.toLocaleString('ru-RU')} ₽/мес. · Премиум`;
+            
+            const buyBtn = document.createElement('button');
+            buyBtn.className = 'btn-buy';
+            buyBtn.innerText = 'Купить';
+            buyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.openOrderModal(car);
+            });
+            
+            contentDiv.appendChild(priceSpan);
+            contentDiv.appendChild(badgesDiv);
+            contentDiv.appendChild(specsDiv);
+            contentDiv.appendChild(mileLoc);
+            contentDiv.appendChild(monthlySpan);
+            contentDiv.appendChild(buyBtn);
+            
+            card.appendChild(brandDiv);
+            card.appendChild(imageWrapper);
+            card.appendChild(contentDiv);
+            grid.appendChild(card);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCards();
+
+        if (window.initEventHandlers) {
+            window.initEventHandlers();
+        }
+    });
+</script>
+<script src="js/cars.js"></script>
+</body>
+</html>
