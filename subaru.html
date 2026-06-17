@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DS Auto | Премиум автомобили</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<link rel="stylesheet" href="css/cars.css">
+<a href="index.html" class="logo-button" id="dsLogoBtn">DS AUTO</a>
+
+<div class="container">
+    <div class="cars-grid" id="carsGrid"></div>
+    <div class="footer-message">✦ Оригинальные ПТС · Без ДТП  ✦</div>
+</div>
+
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <h3>Заказать автомобиль</h3>
+        <div class="modal-sub" id="modalCarTitle">Выберите авто в карточке</div>
+        <form id="buyerForm">
+            <div class="form-group">
+                <label>ФИО *</label>
+                <input type="text" id="fullName" placeholder="Иванов Иван Петрович" autocomplete="name">
+                <div class="error-msg" id="nameError">Укажите корректное ФИО (минимум два слова)</div>
+            </div>
+            <div class="form-group">
+                <label>Номер телефона *</label>
+                <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="tel">
+                <div class="error-msg" id="phoneError">Введите действующий номер (не менее 10 цифр)</div>
+            </div>
+            <div class="form-group">
+                <label>Электронная почта *</label>
+                <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+                <div class="error-msg" id="emailError">Пример: client@dsauto.ru</div>
+            </div>
+            <div class="modal-buttons">
+                <button type="submit" class="submit-btn">Оформить</button>
+                <button type="button" class="cancel-btn" id="closeModalBtn">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const carsData = [
+        { brand: "Subaru", model: "WRX STI", year: 2025, price: 5000000, monthly: 84221, mileage: "0 км", engine: "2.5 4WD MT (300 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Новый автомобиль", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=24df11cbd368633a42c9b1121a8d499754cbfb0a-5141122-images-thumbs&n=13", alt: "Subaru WRX STI" },
+        { brand: "Subaru", model: "BRZ", year: 2025, price: 3000000, monthly: 64900, mileage: "0 км", engine: "2.4 AT (235 л.с.)", fuelDrive: "Бензин, Задний", city: "Ставрополь", dtp: "Без ДТП", owners: "Новый автомобиль", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=a151ad59d1ae6fe98e9c06bbc13c3c8b7fc5a77b-8206800-images-thumbs&n=13", alt: "Subaru BRZ" },
+        { brand: "Subaru", model: "Levorg", year: 2026, price: 3000000, monthly: 64900, mileage: "20 км", engine: "1.8 4WD CVT (177 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Новый автомобиль", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=dea5aac24d219abe26b527ecfd1ab3feb7cafdc0-6951187-images-thumbs&n=13", alt: "Subaru Levorg" },
+        { brand: "Subaru", model: "Forester", year: 2023, price: 3280000, monthly: 67500, mileage: "28 740 км", engine: " 2.0 4WD CVT (154 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=ac8c406ca1750fb933fcc70b7f9c947c2aa66372-5260040-images-thumbs&n=13", alt: "Subaru Forester" },
+        { brand: "Subaru", model: "Legacy", year: 2025, price: 3000000, monthly: 64900, mileage: "30 км", engine: "2.5 AWD CVT (182 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Новый автомобиль", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=dba3ecc52f5e6c323f88142da09fc4c81cb52b6b-8152091-images-thumbs&n=13", alt: "Subaru Legacy" },
+        { brand: "Subaru", model: "Outback", year: 2026, price: 7300000, monthly: 100000, mileage: "100 км", engine: "2.5 4WD CVT (180 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Новый автомобиль", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=f25fad30359f6c556871f89d538e32c9af5f8f52-5205517-images-thumbs&n=13", alt: "Subaru Outback" },
+    ];
+
+    function renderCards() {
+        const grid = document.getElementById('carsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        carsData.forEach((car) => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+
+            const brandDiv = document.createElement('div');
+            brandDiv.className = 'card-brand';
+            brandDiv.innerHTML = `
+                <div class="brand-name">${car.brand} ${car.model}</div>
+                <div class="brand-year">${car.year}</div>
+            `;
+            
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'image-wrapper';
+            const img = document.createElement('img');
+            img.src = car.imageUrl;
+            img.alt = car.alt || `${car.brand} ${car.model}`;
+            img.className = 'car-image';
+            img.loading = "lazy";
+            img.onerror = function() {
+                this.src = "https://placehold.co/800x500/1a2128/9eb0c2?text=" + encodeURIComponent(car.brand + " " + car.model);
+                this.alt = `${car.brand} ${car.model}`;
+            };
+            imageWrapper.appendChild(img);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'card-content';
+            
+            const priceSpan = document.createElement('div');
+            priceSpan.className = 'price';
+            priceSpan.innerHTML = `${window.formatPrice(car.price)} <small>₽</small>`;
+            
+            const badgesDiv = document.createElement('div');
+            badgesDiv.className = 'badge-stats';
+            badgesDiv.innerHTML = `
+                <span class="chip">${car.dtp}</span>
+                <span class="chip">${car.owners}</span>
+                <span class="chip">${car.pts}</span>
+            `;
+            
+            const specsDiv = document.createElement('div');
+            specsDiv.className = 'specs';
+            specsDiv.innerHTML = `<strong>${car.engine}</strong><br>${car.fuelDrive}`;
+            
+            const mileLoc = document.createElement('div');
+            mileLoc.className = 'mileage-location';
+            mileLoc.innerHTML = `
+                <span>📊 ${car.mileage}</span>
+                <span>📍 ${car.city}</span>
+            `;
+            
+            const monthlySpan = document.createElement('div');
+            monthlySpan.className = 'monthly';
+            monthlySpan.innerHTML = `От ${car.monthly.toLocaleString('ru-RU')} ₽/мес. · Премиум`;
+            
+            const buyBtn = document.createElement('button');
+            buyBtn.className = 'btn-buy';
+            buyBtn.innerText = 'Купить';
+            buyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.openOrderModal(car);
+            });
+            
+            contentDiv.appendChild(priceSpan);
+            contentDiv.appendChild(badgesDiv);
+            contentDiv.appendChild(specsDiv);
+            contentDiv.appendChild(mileLoc);
+            contentDiv.appendChild(monthlySpan);
+            contentDiv.appendChild(buyBtn);
+            
+            card.appendChild(brandDiv);
+            card.appendChild(imageWrapper);
+            card.appendChild(contentDiv);
+            grid.appendChild(card);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCards();
+
+        if (window.initEventHandlers) {
+            window.initEventHandlers();
+        }
+    });
+</script>
+<script src="js/cars.js"></script>
+</body>
+</html>

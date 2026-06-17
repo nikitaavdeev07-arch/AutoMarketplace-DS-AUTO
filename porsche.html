@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>DS Auto | Премиум автомобили</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+</head>
+<body>
+<link rel="stylesheet" href="css/cars.css">
+<a href="index.html" class="logo-button" id="dsLogoBtn">DS AUTO</a>
+
+<div class="container">
+    <div class="cars-grid" id="carsGrid"></div>
+    <div class="footer-message">✦ Оригинальные ПТС · Без ДТП  ✦</div>
+</div>
+
+<div id="orderModal" class="modal">
+    <div class="modal-content">
+        <h3>Заказать автомобиль</h3>
+        <div class="modal-sub" id="modalCarTitle">Выберите авто в карточке</div>
+        <form id="buyerForm">
+            <div class="form-group">
+                <label>ФИО *</label>
+                <input type="text" id="fullName" placeholder="Иванов Иван Петрович" autocomplete="name">
+                <div class="error-msg" id="nameError">Укажите корректное ФИО (минимум два слова)</div>
+            </div>
+            <div class="form-group">
+                <label>Номер телефона *</label>
+                <input type="tel" id="phone" placeholder="+7 (999) 123-45-67" autocomplete="tel">
+                <div class="error-msg" id="phoneError">Введите действующий номер (не менее 10 цифр)</div>
+            </div>
+            <div class="form-group">
+                <label>Электронная почта *</label>
+                <input type="email" id="email" placeholder="name@example.com" autocomplete="email">
+                <div class="error-msg" id="emailError">Пример: client@dsauto.ru</div>
+            </div>
+            <div class="modal-buttons">
+                <button type="submit" class="submit-btn">Оформить</button>
+                <button type="button" class="cancel-btn" id="closeModalBtn">Отмена</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    const carsData = [
+        { brand: "Porsche", model: "911 Carrera 4S", year: 2025, price: 25000000, monthly: 107221, mileage: "0 км", engine: "3.0 4WD PDK (480 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Новый автомобиль", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=dc17ffb414c907e2109cc37c107ee7eea5bac32a-8311833-images-thumbs&n=13", alt: "Porsche Carrera 4S" },
+        { brand: "Porsche", model: "Cayman GT4 RS", year: 2025, price: 22500000, monthly: 107000, mileage: "4 200 км", engine: "4.0 PDK (500 л.с.)", fuelDrive: "Бензин, Задний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=391f821983e9af9bf2a99cea4e44a2b136b2ac5f-5368643-images-thumbs&n=13", alt: "Porsche Cayman" },
+        { brand: "Porsche", model: "Panamera", year: 2022, price: 11150000, monthly: 107000, mileage: "35 150 км", engine: "2.9 PDK (330 л.с.)", fuelDrive: "Бензин, Задний", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=a1342cc4f29aae9db6f74a6b2413b6acbce64a90-4569510-images-thumbs&n=13", alt: "Porsche Panamera" },
+        { brand: "Porsche", model: "Cayenne", year: 2026, price: 21390000, monthly: 107500, mileage: "0 км", engine: "3.0 4WD AT (353 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Новый автомобиль", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=9c1cf6b83fa97704ddd80fa6300c348ab16243f2-10391931-images-thumbs&n=13", alt: "Porsche Cayenne" },
+        { brand: "Porsche", model: "Macan", year: 2023, price: 7500000, monthly: 107500, mileage: "30 300 км", engine: "2.0 4WD PDK (265 л.с.)", fuelDrive: "Бензин, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=6a4df2a9a76761a68dda5271942bb1fce0393c93-5240761-images-thumbs&n=13", alt: "Porsche Macan" },
+        { brand: "Porsche", model: "Taycan 4S Cross Turismo", year: 2021, price: 9480000, monthly: 107500, mileage: "25 520 км", engine: "4WD AT (571 л.с.)", fuelDrive: "Электро, Полный", city: "Ставрополь", dtp: "Без ДТП", owners: "Один владелец", pts: "Оригинал ПТС", imageUrl: "https://avatars.mds.yandex.net/i?id=890d37c7278e910872f01a5efed4446bb84229da-4304172-images-thumbs&n=13", alt: "Porsche Taycan" },
+    ];
+
+    function renderCards() {
+        const grid = document.getElementById('carsGrid');
+        if (!grid) return;
+        grid.innerHTML = '';
+
+        carsData.forEach((car) => {
+            const card = document.createElement('div');
+            card.className = 'car-card';
+
+            const brandDiv = document.createElement('div');
+            brandDiv.className = 'card-brand';
+            brandDiv.innerHTML = `
+                <div class="brand-name">${car.brand} ${car.model}</div>
+                <div class="brand-year">${car.year}</div>
+            `;
+            
+            const imageWrapper = document.createElement('div');
+            imageWrapper.className = 'image-wrapper';
+            const img = document.createElement('img');
+            img.src = car.imageUrl;
+            img.alt = car.alt || `${car.brand} ${car.model}`;
+            img.className = 'car-image';
+            img.loading = "lazy";
+            img.onerror = function() {
+                this.src = "https://placehold.co/800x500/1a2128/9eb0c2?text=" + encodeURIComponent(car.brand + " " + car.model);
+                this.alt = `${car.brand} ${car.model}`;
+            };
+            imageWrapper.appendChild(img);
+            
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'card-content';
+            
+            const priceSpan = document.createElement('div');
+            priceSpan.className = 'price';
+            priceSpan.innerHTML = `${window.formatPrice(car.price)} <small>₽</small>`;
+            
+            const badgesDiv = document.createElement('div');
+            badgesDiv.className = 'badge-stats';
+            badgesDiv.innerHTML = `
+                <span class="chip">${car.dtp}</span>
+                <span class="chip">${car.owners}</span>
+                <span class="chip">${car.pts}</span>
+            `;
+            
+            const specsDiv = document.createElement('div');
+            specsDiv.className = 'specs';
+            specsDiv.innerHTML = `<strong>${car.engine}</strong><br>${car.fuelDrive}`;
+            
+            const mileLoc = document.createElement('div');
+            mileLoc.className = 'mileage-location';
+            mileLoc.innerHTML = `
+                <span>📊 ${car.mileage}</span>
+                <span>📍 ${car.city}</span>
+            `;
+            
+            const monthlySpan = document.createElement('div');
+            monthlySpan.className = 'monthly';
+            monthlySpan.innerHTML = `От ${car.monthly.toLocaleString('ru-RU')} ₽/мес. · Премиум`;
+            
+            const buyBtn = document.createElement('button');
+            buyBtn.className = 'btn-buy';
+            buyBtn.innerText = 'Купить';
+            buyBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                window.openOrderModal(car);
+            });
+            
+            contentDiv.appendChild(priceSpan);
+            contentDiv.appendChild(badgesDiv);
+            contentDiv.appendChild(specsDiv);
+            contentDiv.appendChild(mileLoc);
+            contentDiv.appendChild(monthlySpan);
+            contentDiv.appendChild(buyBtn);
+            
+            card.appendChild(brandDiv);
+            card.appendChild(imageWrapper);
+            card.appendChild(contentDiv);
+            grid.appendChild(card);
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderCards();
+        if (window.initEventHandlers) {
+            window.initEventHandlers();
+        }
+    });
+</script>
+<script src="js/cars.js"></script>
+</body>
+</html>
