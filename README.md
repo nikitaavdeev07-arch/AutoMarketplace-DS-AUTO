@@ -56,6 +56,7 @@ https://nikitaavdeev07-arch.github.io/Marketplace/
 ---
 
 # 📁 Структура проекта
+```text
 
 DS AUTO/
 ├── index.html (главная страница)
